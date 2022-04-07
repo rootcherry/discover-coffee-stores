@@ -1,14 +1,7 @@
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
-  return (
-    <div>
-      <Component {...pageProps} />
-      <footer>
-        <p>© 2022 John</p>
-      </footer>
-    </div>
-  );
+  return (<Component {...pageProps} />);
 }
 
-export default MyApp
+export default MyApp;
