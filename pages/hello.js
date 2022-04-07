@@ -1,6 +1,8 @@
+import styles from '../styles/Hello.module.css';
+
 const Hello = () => {
   return (
-    <div>
+    <div className={styles.container}>
       Hello World
     </div>
   );
