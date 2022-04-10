@@ -30,19 +30,22 @@ export default function Home(props) {
 
   console.log({ latLong, locationErrorMsg });
 
-  useEffect(async () => {
-    if (latLong) {
-      try {
-        const fetchedCoffeeStores = await fetchCoffeeStores(latLong, 30);
-        console.log({fetchedCoffeeStores});
-        // set coffee stores
-        setCoffeeStores(fetchedCoffeeStores);
-      } catch (error) {
-        // set error
-        console.log({error});
-        setCoffeeStoresError(error.message);
+  useEffect(() => {
+    async function fetchData() {
+      if (latLong) {
+        try {
+          const fetchedCoffeeStores = await fetchCoffeeStores(latLong, 30);
+          console.log({fetchedCoffeeStores});
+          // set coffee stores
+          setCoffeeStores(fetchedCoffeeStores);
+        } catch (error) {
+          // set error
+          console.log({error});
+          setCoffeeStoresError(error);
+        }
       }
     }
+    fetchData();
   }, [latLong]);
 
   const handleOnBannerBtnClick = () => {
