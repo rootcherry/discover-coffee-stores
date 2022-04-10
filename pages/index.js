@@ -20,7 +20,7 @@ export async function getStaticProps(context) {
 }
 
 export default function Home(props) {
-  console.log('props', props);
+  // console.log('props', props);
 
   const { handleTrackLocation, latLong, locationErrorMsg, isFindingLocation } = useTrackLocation();
 
@@ -28,7 +28,7 @@ export default function Home(props) {
 
   const [coffeeStoresError, setCoffeeStoresEError] = useState(null);
 
-  console.log({ latLong, locationErrorMsg });
+  // console.log({ latLong, locationErrorMsg });
 
   useEffect(() => {
     async function fetchData() {
@@ -49,7 +49,7 @@ export default function Home(props) {
   }, [latLong]);
 
   const handleOnBannerBtnClick = () => {
-    console.log('hi banner button');
+    // console.log('hi banner button');
     handleTrackLocation();
   };
 
