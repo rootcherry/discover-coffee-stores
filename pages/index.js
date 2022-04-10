@@ -5,13 +5,25 @@ import styles from '../styles/Home.module.css';
 import Banner from '../components/banner';
 import Card from '../components/card';
 
-import coffeeStoresData from '../data/coffee-stores.json';
+// import coffeeStoresData from '../data/coffee-stores.json';
 
 export async function getStaticProps(context) {
-  console.log('hi getStaticProps');
+  // console.log('hi getStaticProps');
+
+  const response = await fetch(
+    `https://api.foursquare.com/v2/venues/search?ll=43.
+    65267326999575,-79.39545615725015&query=coffee store&
+    client_id=${process.env.FOURSQUARE_CLIENT_ID}&
+    client_secret=${process.env.FOURSQUARE_CLIENT_SECRET}&
+    v=20220410&limit=6`
+  );
+
+  const data = await response.json();
+  console.log(data);
+
   return {
     props: {
-      coffeeStores: coffeeStoresData, // coffeStores: coffeeStoresx
+      coffeeStores: data.response.venues, // coffeStores: coffeeStoresx
     }, // will be passed to the page component as props
   }
 }
@@ -43,13 +55,18 @@ export default function Home(props) {
           <div><h2 className={styles.heading2}>Toronto stores</h2>
             <div className={styles.cardLayout}>
               {props.coffeeStores.map(coffeeStore => {
-              return <Card
-                key={coffeeStore.id}
-                name={coffeeStore.name}
-                imgUrl={coffeeStore.imgUrl}
-                href={`/coffee-store/${coffeeStore.id}`}
-                className={styles.card}
-              />
+              return (
+                <Card
+                  key={coffeeStore.id}
+                  name={coffeeStore.name}
+                  imgUrl={
+                    coffeeStore.imgUrl ||
+                    "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+                  }
+                  href={`/coffee-store/${coffeeStore.id}`}
+                  className={styles.card}
+                />
+              );
               })};
             </div>
           </div>
