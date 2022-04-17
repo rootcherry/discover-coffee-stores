@@ -95,8 +95,11 @@ const CoffeeStore = (initialProps) => {
           handleCreatedCoffeeStore(coffeeStoreFromContext);
         }
       }
+    } else {
+      // SSG
+      handleCreatedCoffeeStore(initialProps.coffeeStore);
     }
-  }, [id]);
+  }, [id, initialProps, initialProps.coffeeStore]);
 
   const { address, name, neighborhood, imgUrl } = coffeeStore;
 
