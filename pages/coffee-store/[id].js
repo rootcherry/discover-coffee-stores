@@ -58,9 +58,27 @@ const CoffeeStore = (initialProps) => {
     }
   } = useContext(StoreContext);
 
-  const handleCreatedCoffeeStore = async () => {
+  const handleCreatedCoffeeStore = async (coffeeStore) => {
     try {
-      const response = await fetch('/api/createCoffeeStore');
+      const { id, name, voting, imgUrl, neighborhood, address } = coffeeStore;
+
+      const response = await fetch('/api/createCoffeeStore', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id, 
+          name, 
+          voting: 0, 
+          imgUrl, 
+          neighborhood: neighborhood || "", 
+          address: address || "",
+        }),
+      });
+
+      const dbCoffeeStore = response.json();
+      console.log({ dbCoffeeStore });
     } catch (err) {
       console.error('Error creating coffee store', err);
     }
@@ -69,10 +87,13 @@ const CoffeeStore = (initialProps) => {
   useEffect(() => {
     if (isEmpty(initialProps.coffeeStore)) {
       if (coffeeStores.length > 0) {
-        const findCoffeeStoreById = coffeeStores.find(coffeeStore => {
+        const coffeeStoreFromContext = coffeeStores.find(coffeeStore => {
           return coffeeStore.id.toString() === id; // dynamic id
         });
-        setCoffeeStore(findCoffeeStoreById);
+        if (coffeeStoreFromContext) {
+          setCoffeeStore(coffeeStoreFromContext);
+          handleCreatedCoffeeStore(coffeeStoreFromContext);
+        }
       }
     }
   }, [id]);
@@ -98,12 +119,12 @@ const CoffeeStore = (initialProps) => {
           <div className={styles.nameWrapper}>
             <h1 className={styles.name}>{name}</h1>
           </div>
-          <Image 
+          <Image
             src={imgUrl ||
-              "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"} 
-            width={600} 
-            height={360} 
-            className={styles.storeImg} 
+              "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"}
+            width={600}
+            height={360}
+            className={styles.storeImg}
             alt={name}
           ></Image>
         </div>
