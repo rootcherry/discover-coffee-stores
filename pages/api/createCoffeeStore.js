@@ -1,4 +1,8 @@
-import { table, getMinifiedRecords, findRecordByFilter } from '../../lib/airtable';
+import {
+  table,
+  getMinifiedRecords,
+  findRecordByFilter,
+} from "../../lib/airtable";
 
 const createCoffeeStore = async (req, res) => {
   if (req.method === "POST") {

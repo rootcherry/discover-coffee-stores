@@ -69,11 +69,11 @@ const CoffeeStore = (initialProps) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id, 
-          name, 
-          voting: 0, 
-          imgUrl, 
-          neighborhood: neighborhood || "", 
+          id,
+          name,
+          voting: 0,
+          imgUrl,
+          neighborhood: neighborhood || "",
           address: address || "",
         }),
       });
@@ -116,10 +116,27 @@ const CoffeeStore = (initialProps) => {
     }
   }, [data]);
 
-  const handleUpvoteButton = () => {
+  const handleUpvoteButton = async () => {
     console.log('handle upvote');
-    let count = votingCount + 1;
-    setVotingCount(count);
+
+    try {
+      const response = await fetch('/api/favouriteCoffeeStoreById', {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+        }),
+      });
+
+      if (dbCoffeeStore && dbCoffeeStore.length > 0) {
+        let count = votingCount + 1;
+        setVotingCount(count);
+      }
+    } catch (err) {
+      console.error('Error upvoting the coffe store', err);
+    }
   };
 
   if (error) {

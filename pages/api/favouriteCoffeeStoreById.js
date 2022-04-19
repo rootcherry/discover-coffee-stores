@@ -1,7 +1,11 @@
-import { table, findRecordByFilter, getMinifiedRecords } from '../../lib/airtable';
+import {
+  table,
+  findRecordByFilter,
+  getMinifiedRecords,
+} from "../../lib/airtable";
 
 const favouriteCoffeeStoreById = async (req, res) => {
-  if (req.method === 'PUT') {
+  if (req.method === "PUT") {
     try {
       const { id } = req.body;
 
@@ -10,13 +14,14 @@ const favouriteCoffeeStoreById = async (req, res) => {
 
         if (records.length !== 0) {
           const record = records[0];
-          const calculateVoting = parseInt(record.voting) + parseInt(1);
-          // update a record
+
+          const calculateVoting = parseInt(record.voting) + 1;
+
           const updateRecord = await table.update([
             {
               id: record.recordId,
               fields: {
-                voting: calculateVoting
+                voting: calculateVoting,
               },
             },
           ]);
@@ -32,9 +37,9 @@ const favouriteCoffeeStoreById = async (req, res) => {
         res.status(400);
         res.json({ message: "Id is missing" });
       }
-    } catch (err) {
+    } catch (error) {
       res.status(500);
-      res.json({ message: 'Error upvoting our coffee store', err });
+      res.json({ message: "Error upvoting coffee store", error });
     }
   }
 };
