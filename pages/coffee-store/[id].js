@@ -9,7 +9,7 @@ import useSWR from "swr";
 import cls from "classnames";
 
 import styles from "../../styles/coffee-store.module.css";
-import { fetchCoffeeStores } from "../../lib/coffee-store";
+import { fetchCoffeeStores } from "../../lib/coffee-stores";
 
 import { StoreContext } from "../../store/store-context";
 
@@ -112,6 +112,7 @@ const CoffeeStore = (initialProps) => {
   useEffect(() => {
     if (data && data.length > 0) {
       setCoffeeStore(data[0]);
+
       setVotingCount(data[0].voting);
     }
   }, [data]);

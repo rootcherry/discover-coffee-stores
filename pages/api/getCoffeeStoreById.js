@@ -1,4 +1,8 @@
-import { table, getMinifiedRecords, findRecordByFilter } from '../../lib/airtable';
+import {
+  table,
+  getMinifiedRecords,
+  findRecordByFilter,
+} from "../../lib/airtable";
 
 const getCoffeeStoreById = async (req, res) => {
   const { id } = req.query;
@@ -6,6 +10,7 @@ const getCoffeeStoreById = async (req, res) => {
   try {
     if (id) {
       const records = await findRecordByFilter(id);
+
       if (records.length !== 0) {
         res.json(records);
       } else {
@@ -13,11 +18,11 @@ const getCoffeeStoreById = async (req, res) => {
       }
     } else {
       res.status(400);
-      res.json({ message: 'id is missing' });
+      res.json({ message: "Id is missing" });
     }
-  } catch (err) {
+  } catch (error) {
     res.status(500);
-    res.json({ message: 'Something went wrong', err });
+    res.json({ message: "Something went wrong", error });
   }
 };
 
